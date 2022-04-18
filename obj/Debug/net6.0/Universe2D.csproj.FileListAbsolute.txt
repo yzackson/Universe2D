@@ -1,0 +1,15 @@
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\bin\Debug\net6.0\Universe2D.exe
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\bin\Debug\net6.0\Universe2D.deps.json
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\bin\Debug\net6.0\Universe2D.runtimeconfig.json
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\bin\Debug\net6.0\Universe2D.dll
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\bin\Debug\net6.0\Universe2D.pdb
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\Universe2D.csproj.AssemblyReference.cache
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\Universe2D.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\Universe2D.AssemblyInfoInputs.cache
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\Universe2D.AssemblyInfo.cs
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\Universe2D.csproj.CoreCompileInputs.cache
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\Universe2D.dll
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\refint\Universe2D.dll
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\Universe2D.pdb
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\Universe2D.genruntimeconfig.cache
+C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\obj\Debug\net6.0\ref\Universe2D.dll
