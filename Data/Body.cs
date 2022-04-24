@@ -14,7 +14,7 @@ namespace Universe2D
         {
 
             NumberFormatInfo provider = new NumberFormatInfo();
-            provider.NumberDecimalSeparator = ".";
+            provider.NumberDecimalSeparator = ",";
             this.Name = body[0];
             this.Mass = Convert.ToDouble(body[1], provider);
             this.Radius = Convert.ToDouble(body[2], provider);
