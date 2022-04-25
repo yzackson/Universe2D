@@ -12,7 +12,6 @@ namespace Universe2D
 
         public Body(string[] body)
         {
-
             NumberFormatInfo provider = new NumberFormatInfo();
             provider.NumberDecimalSeparator = ",";
             this.Name = body[0];

@@ -11,6 +11,8 @@
             file = file.Skip(1).ToArray();
 
             Universe universe = new Universe(file, int.Parse(systemData[1]), float.Parse(systemData[2]));
+
+            universe.GenerateNewUniverse();
         }
     }
 }
