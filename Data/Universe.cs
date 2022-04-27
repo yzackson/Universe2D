@@ -8,7 +8,7 @@ namespace Universe2D
         public List<Body> Bodies {get; set;} = new List<Body>();
 
         //Lista para receber os novos corpos após os cálculos
-        public List<Body> NewBodies { get; set; } = new List<Body>();
+        //public List<Body> NewBodies { get; set; } = new List<Body>();
 
         // Constante gravitacional
         public const double G = 0.00000000006673;
@@ -39,76 +39,61 @@ namespace Universe2D
             double totForce;
             double distance = 0;
             double aceleration;
-            bool remove = false;
 
-            NewBodies = Bodies;
 
-            // Percorre cada corpo lido do arquivo
-            for (int i = 0; i < Bodies.Count; i++)
+            Bodies.ForEach(bodyA =>
             {
-                // zera as forcas para calcular cada corpo
                 force = 0;
                 totForce = 0;
 
-                // Percorre cada corpo lido lido do arquivo para calcular com o corpo selecionado anteriormente
-                for (int j = 0; j < Bodies.Count; j++)
+                Bodies.ForEach(bodyB =>
                 {
-                    // Se o corpo j for o mesmo corpo i pula para o próximo corpo j
-                    if (j == i) {
-                        j++; 
-                        if (j == (Bodies.Count)) { continue; }
+                    if(bodyA == bodyB)
+                    {
+                        return;
                     }
+
                     // distancia do corpo i em relacao ao corpo j
-                    distance = Distance(Bodies[i].Position[0], Bodies[j].Position[0], Bodies[i].Position[1], Bodies[j].Position[1]);
+                    distance = Distance(bodyA.Position[0], bodyB.Position[0], bodyA.Position[1], bodyB.Position[1]);
 
                     // forca do corpo i em relacao ao corpo j
-                    force = G * (Bodies[i].Mass * Bodies[j].Mass / Math.Pow(distance, 2));
+                    force = G * (bodyA.Mass * bodyB.Mass / Math.Pow(distance, 2));
 
                     // soma da forca entre i e todos os demais corpos
                     totForce += force;
 
+                    // Calcula aceleração do corpo
+                    aceleration = totForce / bodyA.Mass;
+
+                    // Calcuula nova posição
+                    bodyA.Position[0] = bodyA.Position[0] + bodyA.Velocity[0] * time + ((aceleration / 2) * Math.Pow(time, 2));
+                    bodyA.Position[1] = bodyA.Position[1] + bodyA.Velocity[1] * time + ((aceleration / 2) * Math.Pow(time, 2));
+
+                    // Limita a posicao do corpo para o limite da tela de teste
+                    if (bodyA.Position[0] >= 1382) { bodyA.Position[0] = 1382; }
+                    if (bodyA.Position[1] >= 784) { bodyA.Position[1] = 784; }
+
+                    // Calcula nova velocidade
+                    bodyA.Velocity[0] = (aceleration * time) + bodyA.Velocity[0];
+                    bodyA.Velocity[1] = (aceleration * time) + bodyA.Velocity[1];
+
                     // Checagem de colisao
-                    if (distance < (NewBodies[i].Radius + NewBodies[j].Radius))
+                    if (distance < (bodyA.Radius + bodyB.Radius))
                     {
-                        if (NewBodies[i].Mass > NewBodies[j].Mass)
+                        if (bodyA.Mass > bodyB.Mass)
                         {
-                            NewBodies[i].Mass += NewBodies[j].Mass;
-                            NewBodies.Remove(NewBodies[j]);
-                            i = i == Bodies.Count ? i - 1 : i;
+                            bodyA.Mass += bodyB.Mass;
+                            Bodies.Remove(bodyB);
                         }
                         else
                         {
-                            NewBodies[j].Mass += NewBodies[i].Mass;
-                            remove = true;
+                            bodyB.Mass += bodyA.Mass;
+                            Bodies.Remove(bodyA);
                         }
 
                     }
-                }
-                
-                // Calcula aceleração do corpo
-                aceleration = totForce/Bodies[i].Mass;
-
-                // Calcuula nova posição
-                NewBodies[i].Position[0] = Bodies[i].Position[0] + Bodies[i].Velocity[0] * time + ((aceleration/2) * Math.Pow(time, 2));
-                NewBodies[i].Position[1] = Bodies[i].Position[1] + Bodies[i].Velocity[1] * time + ((aceleration/2) * Math.Pow(time, 2));
-
-                // Limita a posicao do corpo para o limite da tela de teste
-                if (NewBodies[i].Position[0] >= 1382) { NewBodies[i].Position[0] = 1382; }
-                if (NewBodies[i].Position[1] >= 784) { NewBodies[i].Position[1] = 784; }
-
-                // Calcula nova velocidade
-                NewBodies[i].Velocity[0] = (aceleration * time) + Bodies[i].Velocity[0];
-                NewBodies[i].Velocity[1] = (aceleration * time) + Bodies[i].Velocity[1];
-
-                if (remove)
-                {
-                    NewBodies.Remove(NewBodies[i]);
-                    remove = false;
-                }
-            }
-
-            // copia a lista de corpos para manter os valores de velocidade e posicao lidos do arquivo da primeira iteração
-            Bodies = NewBodies;
+                });
+            });
         }
 
         // calcula a distancia
@@ -124,25 +109,17 @@ namespace Universe2D
         // Escreve a lista de corpos no arquivo de saida
         private void WriteBodies()
         {
-            foreach(var body in NewBodies)
+            Bodies.ForEach(body =>
             {
-                /*
-                string[] str = new String[1];
-                str.Append(Convert.ToString(body.Name, provider) + ";" + Convert.ToString(body.Mass, provider) + ";" + Convert.ToString(body.Radius, provider) + ";" + Convert.ToString(body.Position[0], provider) + ";" + Convert.ToString(body.Position[1], provider) + ";" + Convert.ToString(body.Velocity[0], provider) + ";" + Convert.ToString(body.Velocity[1], provider));
-                
-                string str = Convert.ToString(body.Name, provider) + ";" + Convert.ToString(body.Mass, provider) + ";" + Convert.ToString(body.Radius, provider) + ";" + Convert.ToString(body.Position[0], provider) + ";" + Convert.ToString(body.Position[1], provider) + ";" + Convert.ToString(body.Velocity[0], provider) + ";" + Convert.ToString(body.Velocity[1], provider) + Environment.NewLine;
-                File.AppendAllText("C:\\Dev\\Faculdade\\Universe2D\\NewUniverse.data", str);
-                */
-
                 // monta a linha do corpo e o escreve no arquivo de sa�da
                 string str = body.Name + ";" + body.Mass + ";" + body.Radius + ";" + body.Position[0] + ";" + body.Position[1] + ";" + body.Velocity[0] + ";" + body.Velocity[1] + Environment.NewLine;
-                File.AppendAllText("C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\NewUniverse.uni", str);
-            }
+                File.AppendAllText("C:\\Dev\\Faculdade\\Universe2D\\NewUniverse_teste.uni", str);
+            });
         }
 
         public void GenerateNewUniverse()
         {
-            File.AppendAllText("C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\NewUniverse.uni", $"{Bodies.Count};{Iteration};{Time}" + Environment.NewLine);
+            File.AppendAllText("C:\\Dev\\Faculdade\\Universe2D\\NewUniverse_teste.uni", $"{Bodies.Count};{Iteration};{Time}" + Environment.NewLine);
 
             for (int i = 0; i < Iteration; i++)
             {
@@ -151,7 +128,7 @@ namespace Universe2D
 
                 if (i % 10 == 0)
                 {
-                    File.AppendAllText("C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\NewUniverse.uni", $"** Interação {i} ************" + Environment.NewLine);
+                    File.AppendAllText("C:\\Dev\\Faculdade\\Universe2D\\NewUniverse_teste.uni", $"** Interação {i} ************" + Environment.NewLine);
                     this.WriteBodies(); // escreve o resultado dos corpos no arquivo
                 }
             }
