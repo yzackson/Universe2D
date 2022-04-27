@@ -7,4 +7,8 @@ build_property.InvariantGlobalization =
 build_property.PlatformNeutralAssembly = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Universe2D
+<<<<<<< HEAD
 build_property.ProjectDir = c:\Dev\Faculdade\Universe2D\
+=======
+build_property.ProjectDir = C:\Users\isaac\Documents\Faculdade\AED2\Universe2D\
+>>>>>>> 6b8d9a6a192e8b88c02b651bec1381d7dfa6db8f

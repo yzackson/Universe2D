@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Isaac\\.nuget\\packages\\": {}
+    "C:\\Users\\isaac\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dev\\Faculdade\\Universe2D\\Universe2D.csproj",
+      "projectUniqueName": "C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\Universe2D.csproj",
       "projectName": "Universe2D",
-      "projectPath": "C:\\Dev\\Faculdade\\Universe2D\\Universe2D.csproj",
-      "packagesPath": "C:\\Users\\Isaac\\.nuget\\packages\\",
-      "outputPath": "C:\\Dev\\Faculdade\\Universe2D\\obj\\",
+      "projectPath": "C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\Universe2D.csproj",
+      "packagesPath": "C:\\Users\\isaac\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Isaac\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\isaac\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
