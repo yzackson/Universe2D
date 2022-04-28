@@ -4,13 +4,16 @@
     {
         public static void Main(string[] args)
         {
-            string[] file = File.ReadAllLines("C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\inicalTrabalho.uni");
+            Console.Write("Caminho do arquivo de leitura: ");
+            string path = Console.ReadLine();
+            string[] file = File.ReadAllLines(path + "\\BodiesList.uni");
 
             string[] systemData = file[0].Split(";");
 
             file = file.Skip(1).ToArray();
 
-            Universe universe = new Universe(file, int.Parse(systemData[1]), float.Parse(systemData[2]));
+            path += "\\NewUniverse.uni";
+            Universe universe = new Universe(file, int.Parse(systemData[1]), float.Parse(systemData[2]), path);
 
             universe.GenerateNewUniverse();
         }

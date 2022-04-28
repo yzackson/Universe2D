@@ -17,8 +17,10 @@ namespace Universe2D
 
         public float Time;
 
+        public string Path;
+
         // Construtor do novo universo
-        public Universe(string[] bodies, int iteration, float time)
+        public Universe(string[] bodies, int iteration, float time, string path)
         {
             // Pega cada linha importada do arquivo e cria um novo corpo adicionando a lista de corpos
             foreach(var body in bodies)
@@ -30,16 +32,21 @@ namespace Universe2D
 
             Iteration = iteration;
             Time = time;
+            Path = path;
         }
 
         // FUNCAO PARA CALCULAR A MOVIMENTACAO DOS CORPOS
         private void Movement(float time)
         {
-            double force; // forca 
-            double totForce;
+            double force; 
+            double totForceX;
+            double totForceY;
             double distance = 0;
-            double aceleration;
+            double acelerationX;
+            double acelerationY;
             bool remove = false;
+            double seno;
+            double cosseno;
 
             NewBodies = Bodies;
 
@@ -48,7 +55,8 @@ namespace Universe2D
             {
                 // zera as forcas para calcular cada corpo
                 force = 0;
-                totForce = 0;
+                totForceX = 0;
+                totForceY = 0;
 
                 // Percorre cada corpo lido lido do arquivo para calcular com o corpo selecionado anteriormente
                 for (int j = 0; j < Bodies.Count; j++)
@@ -61,11 +69,15 @@ namespace Universe2D
                     // distancia do corpo i em relacao ao corpo j
                     distance = Distance(Bodies[i].Position[0], Bodies[j].Position[0], Bodies[i].Position[1], Bodies[j].Position[1]);
 
+                    seno = (Bodies[j].Position[1] - Bodies[i].Position[1]) / distance;
+                    cosseno = (Bodies[j].Position[0] - Bodies[i].Position[0]) / distance;
+
                     // forca do corpo i em relacao ao corpo j
                     force = G * (Bodies[i].Mass * Bodies[j].Mass / Math.Pow(distance, 2));
 
                     // soma da forca entre i e todos os demais corpos
-                    totForce += force;
+                    totForceX += force * cosseno;
+                    totForceY += force * seno;
 
                     // Checagem de colisao
                     if (distance < (NewBodies[i].Radius + NewBodies[j].Radius))
@@ -86,19 +98,20 @@ namespace Universe2D
                 }
                 
                 // Calcula aceleração do corpo
-                aceleration = totForce/Bodies[i].Mass;
+                acelerationX = totForceX / Bodies[i].Mass;
+                acelerationY = totForceY / Bodies[i].Mass;
 
                 // Calcuula nova posição
-                NewBodies[i].Position[0] = Bodies[i].Position[0] + Bodies[i].Velocity[0] * time + ((aceleration/2) * Math.Pow(time, 2));
-                NewBodies[i].Position[1] = Bodies[i].Position[1] + Bodies[i].Velocity[1] * time + ((aceleration/2) * Math.Pow(time, 2));
+                NewBodies[i].Position[0] = Bodies[i].Position[0] + Bodies[i].Velocity[0] * time + ((acelerationX/2) * Math.Pow(time, 2));
+                NewBodies[i].Position[1] = Bodies[i].Position[1] + Bodies[i].Velocity[1] * time + ((acelerationY/2) * Math.Pow(time, 2));
 
                 // Limita a posicao do corpo para o limite da tela de teste
                 if (NewBodies[i].Position[0] >= 1382) { NewBodies[i].Position[0] = 1382; }
                 if (NewBodies[i].Position[1] >= 784) { NewBodies[i].Position[1] = 784; }
 
                 // Calcula nova velocidade
-                NewBodies[i].Velocity[0] = (aceleration * time) + Bodies[i].Velocity[0];
-                NewBodies[i].Velocity[1] = (aceleration * time) + Bodies[i].Velocity[1];
+                NewBodies[i].Velocity[0] = (acelerationX * time) + Bodies[i].Velocity[0];
+                NewBodies[i].Velocity[1] = (acelerationY * time) + Bodies[i].Velocity[1];
 
                 if (remove)
                 {
@@ -136,13 +149,13 @@ namespace Universe2D
 
                 // monta a linha do corpo e o escreve no arquivo de sa�da
                 string str = body.Name + ";" + body.Mass + ";" + body.Radius + ";" + body.Position[0] + ";" + body.Position[1] + ";" + body.Velocity[0] + ";" + body.Velocity[1] + Environment.NewLine;
-                File.AppendAllText("C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\NewUniverse.uni", str);
+                File.AppendAllText(Path, str);
             }
         }
 
         public void GenerateNewUniverse()
         {
-            File.AppendAllText("C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\NewUniverse.uni", $"{Bodies.Count};{Iteration};{Time}" + Environment.NewLine);
+            File.AppendAllText(Path, $"{Bodies.Count};{Iteration};{Time}" + Environment.NewLine);
 
             for (int i = 0; i < Iteration; i++)
             {
@@ -151,7 +164,7 @@ namespace Universe2D
 
                 if (i % 10 == 0)
                 {
-                    File.AppendAllText("C:\\Users\\isaac\\Documents\\Faculdade\\AED2\\Universe2D\\NewUniverse.uni", $"** Interação {i} ************" + Environment.NewLine);
+                    File.AppendAllText(Path, $"** Interação {i} ************" + Environment.NewLine);
                     this.WriteBodies(); // escreve o resultado dos corpos no arquivo
                 }
             }
